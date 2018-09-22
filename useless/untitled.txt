@@ -1,0 +1,79 @@
+#ID_rating_counts=data.groupby(['Clothing ID']).count().Rating
+
+#ID_rating_mean.values
+
+#ax = sns.scatterplot(x=ID_rating_mean.index.values, y=(ID_rating_mean.values)*(ID_rating_counts.values))
+#plt.xlabel('Clothing ID')
+#plt.ylabel('Rating*Counts')
+
+#BestProducts=(ID_rating_mean.values)*(ID_rating_counts.values)
+
+#data[data['Clothing ID'] == 1078 ]
+
+#ID_rating_mean.index[np.argsort(BestProducts)[-10:]]
+
+#bar= go.Histogram(x=data['Rating'],marker=dict(color='rgba(171, 50, 96, 0.6)'))
+
+#layout = dict(title = 'Rating Hist',
+#              xaxis= dict(title= 'Rating',zeroline= False),
+#              yaxis= dict(title= 'Count',zeroline= False,tickformat='d'))
+#fig= go.Figure(data=l, layout=layout)
+#data['Rating'].iplot(kind='hist',layout=layout)
+#xlabel('Rating')
+#fig = go.Figure(data = [bar], layout = layout)
+#iplot(fig)
+
+ #data['Clothing ID'].value_counts()
+#data.groupby(['Clothing ID']).mean().Rating
+#data.groupby(['Clothing ID']).mean().Rating[
+#             data['Clothing ID'].value_counts().iloc[:num].index]
+
+# to see whether the rating of clothes is relativent to the type of clothes
+#plt.figure(figsize=(25,5))
+#g=sns.catplot(x="Class Name", hue="Division Name",data=data,\
+#             alpha=0.8,kind="count",col="Rating",height=4, aspect=1.3,col_wrap=2);
+#plt.title('Class Name Counts')
+#plt.ylabel('Number of Occurrences', fontsize=12)
+#plt.xlabel('Class Name', fontsize=12)
+#plt.show()
+
+#g=sns.FacetGrid(data,col='Class Name')
+#g.map(plt.hist,'Rating')
+
+#sns.pairplot(data[["Age",'Positive Feedback Count']],hue='Rating')
+
+#data['Class Name'].value_counts().hist(by=data['Division Name'])
+#data.groupby(["Department Name","Class Name"]).mean().Rating  # general sells better than others 
+
+#sns.boxplot(x="Class Name", y="Age", data=data, palette="PRGn")
+#data['Clothing ID'].value_counts()
+
+dummy1=pd.get_dummies(data[['Division Name']])
+dummy2=pd.get_dummies(data[['Department Name']])
+dummy3=pd.get_dummies(data[['Class Name']])
+
+data_num=pd.concat([data.drop(columns=['Division Name','Department Name','Class Name']),\
+                              dummy1,dummy2,dummy3], axis=1,sort=False).reset_index(drop=True)
+                              
+                              #top_N = 20 
+#print('All frequencies:')
+#print('=' * 60)
+#rslt = pd.DataFrame(words_dist_review.most_common(top_N),
+#                    columns=['Word', 'Frequency'])
+#print(rslt)
+
+#data.groupby(['Rating','Recommended IND']).mean()['Positive Feedback Count']
+f, ax = plt.subplots(1, 3, figsize=(18, 7))
+fsize = 13
+sns.heatmap(pd.crosstab(data['Division Name'],data['Rating'],normalize = 'index'),
+            annot=True, linewidths=.5, ax=ax[0], fmt='g', cmap='Oranges',
+            cbar_kws={'label': 'Count'})
+
+sns.heatmap(pd.crosstab( data['Department Name'],data['Rating'],normalize = 'index'),
+            annot=True, linewidths=.5, ax=ax[1], fmt='g', cmap='Oranges',
+            cbar_kws={'label': 'Count'})
+
+
+sns.heatmap(pd.crosstab(data['Class Name'],data['Rating'],normalize = 'index'),
+            annot=True, linewidths=.5, fmt='g', cmap='Oranges',
+            cbar_kws={'label': 'Count'},ax=ax[2])
